@@ -118,8 +118,11 @@ const sourceS3 = {
   resolve: 'gatsby-source-s3-image',
   options: {
     bucketName: 'jesse.pics',
+    accessKeyId: 'accessKeyId',
+    secretAccessKey: 'secretAccessKey',
     domain: null, // [optional] Not necessary to define for AWS S3; defaults to `s3.amazonaws.com`
     protocol: 'https', // [optional] Default to `https`.
+    listObjectsRequest: {} // [optional] https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html, Default to `{}`
   },
 }
 

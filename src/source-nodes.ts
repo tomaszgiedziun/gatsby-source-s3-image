@@ -26,7 +26,8 @@ export interface SourceS3Options {
   domain?: string
   region?: string
   // Defaults to HTTP.
-  protocol?: string
+  protocol?: string,
+  listObjectsRequest?: Omit<S3.ListObjectsRequest, 'Bucket'>
 }
 
 export const sourceNodes = async (
@@ -40,6 +41,7 @@ export const sourceNodes = async (
     domain = 's3.amazonaws.com',
     region = 'us-east-1',
     protocol = 'http',
+    listObjectsRequest = {},
   }: SourceS3Options
 ) => {
   const { createNode, touchNode } = actions
@@ -57,7 +59,7 @@ export const sourceNodes = async (
 
   // prettier-ignore
   const listObjectsResponse: S3.ListObjectsV2Output =
-    await s3.listObjectsV2({ Bucket: bucketName }).promise()
+    await s3.listObjectsV2({ Bucket: bucketName, ...listObjectsRequest }).promise()
 
   const s3Entities: S3.ObjectList = _.get(listObjectsResponse, 'Contents', [])
   if (_.isEmpty(s3Entities)) {
